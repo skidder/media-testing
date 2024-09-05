@@ -131,8 +131,8 @@ func testGraphicalFile(filePath string, outDir string) {
 					failed = true
 				}
 
-				// For animated formats, also generate an animated output
-				if header.IsAnimated() {
+				// For animated formats, also generate an animated output (include the GIF inputs)
+				if header.IsAnimated() || strings.ToLower(decoder.Description()) == "gif" {
 					// reinitialize the decoder
 					decoder, err = lilliput.NewDecoder(buffer)
 					if err != nil {
@@ -191,6 +191,11 @@ func performTransform(decoder lilliput.Decoder, ops *lilliput.ImageOps, options 
 	}
 
 	fmt.Printf("  Resized dimensions match: %dx%d\n", resizedHeader.Width(), resizedHeader.Height())
+
+	// For animated files, we can't verify all frames directly, but we can check if it's still animated
+	if resizedHeader.IsAnimated() {
+		fmt.Println("  Output is animated, but individual frame verification is not supported")
+	}
 
 	// write to outDir using the original filename
 	outputPath := filepath.Join(outDir, filepath.Base(filePath)+outputSuffix)

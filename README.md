@@ -44,6 +44,7 @@ go run main.go ./testdata ./output '*corrupt*'
 6. Conversion to WebP format
 7. For animated files, generation of both animated and non-animated WebP outputs
 8. Verification of resized image dimensions
+9. For animated files, confirmation that the output is still animated (individual frame verification not supported)
 
 ### Non-Graphical Files (mp3, ogg, aac, flac, wav)
 
